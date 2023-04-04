@@ -1,0 +1,52 @@
+get:
+  tags:
+    - Sections
+  summary: List subsections of a section
+  description: This endpoint returns a list of all subsections of a section
+  operationId: org.polydb.get_subsections
+  parameters:
+    - name: section
+      required: true
+      in: path
+      description: the name of the section
+      example: Polytopes
+      schema:
+        type: string
+        example: Polytopes
+    - name: recursive
+      required: false
+      in: query
+      description: whether we should recursively list subsections
+      schema:
+        type: boolean
+        example: true
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            type: array
+            example:
+              - Polytopes.Combinatorial
+              - Polytopes.Geometric
+              - Polytopes.Lattice
+            items:
+              type: string
+              example: Polytopes.Combinatorial
+    '400':
+      description: Parameter or validation failure
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError400.yaml
+    '403':
+      description: 'Authorization failure: Not allowed to access this section'
+    '404':
+      description: Section not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError404.yaml
+    '500':
+      description: Interal server error

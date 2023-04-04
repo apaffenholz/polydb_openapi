@@ -1,0 +1,7 @@
+title: A JSON Schema
+description: A JSON schema describing objects in a collection of PolyDB
+type: object
+properties:
+  _id:
+    type: string
+additionalProperties: true

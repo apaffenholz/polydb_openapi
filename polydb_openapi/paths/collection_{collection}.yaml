@@ -1,0 +1,41 @@
+get:
+  tags:
+    - Collections
+  summary: Information for a single collection
+  description: >-
+    This endpoint returns a description of the data in the collection, the
+    authors of the data, its contributors and maintainers, references to
+    relevant literature, and links to the original source of the data.
+  operationId: org.polydb.get_collection_documentation
+  parameters:
+    - name: collection
+      required: true
+      in: path
+      description: the fully qualified name of the collection
+      example: Polytopes.Combinatorial.01Polytopes
+      schema:
+        type: string
+        example: Polytopes.Combinatorial.01Polytopes
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Collection.yaml
+    '400':
+      description: Parameter or validation failure
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError400.yaml
+    '403':
+      description: 'Authorization failure: Not allowed to access this collection'
+    '404':
+      description: Collection not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError404.yaml
+    '500':
+      description: Interal server error

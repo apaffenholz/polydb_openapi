@@ -1,0 +1,38 @@
+get:
+  tags:
+    - Collections
+  summary: List collections in a section
+  description: This endpoint returns a list of all subsections of a section
+  operationId: org.polydb.get_collections_in_section
+  parameters:
+    - name: section
+      required: true
+      in: path
+      description: the fully qualified name of the section
+      example: Polytopes.Lattice
+      schema:
+        type: string
+        example: Polytopes.Lattice
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/Collections.yaml
+    '400':
+      description: Parameter or validation failure
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError400.yaml
+    '403':
+      description: 'Authorization failure: Not allowed to access this section'
+    '404':
+      description: Section not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError404.yaml
+    '500':
+      description: Interal server error

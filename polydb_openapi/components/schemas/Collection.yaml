@@ -1,0 +1,88 @@
+title: PolyDB collection
+description: PolyDB collection
+type: object
+required:
+  - description
+properties:
+  description:
+    type: string
+    example: 0/1-Polytopes up to lattice equivalence
+  author:
+    type: array
+    items:
+      type: string
+    example:
+      - Oswin Aichholzer
+  maintainer:
+    type: array
+    items:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        affiliation:
+          type: string
+    example:
+      - name: Andreas Paffenholz
+      - email: paffenholz@mathematik.tu-darmstadt.de
+      - affiliation: TU Darmstadt
+  contributor:
+    type: array
+    items:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        affiliation:
+          type: string
+    example:
+      - name: Andreas Paffenholz
+      - email: paffenholz@mathematik.tu-darmstadt.de
+      - affiliation: TU Darmstadt
+  references:
+    type: array
+    items:
+      type: object
+      required:
+        - title
+        - author
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        bib:
+          type: string
+        links:
+          type: array
+          items:
+            type: object
+            required:
+              - link
+              - type
+            properties:
+              link:
+                type: string
+              type:
+                type: string
+    example:
+      - title: Remote Computing Service via email
+        authors: Oswin Aichholzer
+        links:
+          - link: >-
+              http://www.ist.tugraz.at/staff/aichholzer/research/rp/rcs/info01poly/
+            type: url
+      - title: Extremal Properties of 0/1-Polytopes of Dimension 5
+        authors: Oswin Aichholzer
+        links:
+          - link: >-
+              http://www.ist.tugraz.at/files/publications/geometry/a-ep0pd-00.ps.gz
+            type: ps.gz

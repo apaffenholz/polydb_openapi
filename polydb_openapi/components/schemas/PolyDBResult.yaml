@@ -1,0 +1,130 @@
+title: A document from the database
+description: A document from the database
+type: object
+required:
+  - _id
+  - _ns
+properties:
+  _id:
+    type: string
+  _ns:
+    type: object
+    properties:
+      polymake:
+        type: array
+        items:
+          type: string
+  _polyDB:
+    type: object
+    properties:
+      tag:
+        type: string
+      database:
+        type: string
+      template_key:
+        type: string
+      uri:
+        type: string
+      creation_date:
+        type: string
+      collection:
+        type: string
+      id:
+        type: string
+      contributor:
+        type: string
+      version:
+        type: string
+      section:
+        type: string
+  _info:
+    type: object
+    properties:
+      credits:
+        type: object
+        additionalProperties:
+          type: string
+  _attrs:
+    type: object
+    properties:
+      _polyDB:
+        type: object
+        properties:
+          attachment:
+            type: boolean
+        additionalProperties: true
+    additionalProperties:
+      type: object
+      properties:
+        attachment:
+          type: boolean
+        method:
+          type: boolean
+example:
+  _id: n10r0_00000000
+  SERIES_PARALLEL: false
+  TERNARY: true
+  SPLIT_FLACETS: []
+  N_CONNECTED_COMPONENTS: 10
+  G_INVARIANT:
+    - - []
+      - '3628800'
+  _ns:
+    polymake:
+      - https://polymake.org
+      - '3.6'
+  TRANSVERSAL: true
+  SELF_DUAL: false
+  TUTTE_POLYNOMIAL:
+    - - - '1': 10
+          _dim: 2
+        - '1'
+    - 2
+  _type: matroid::Matroid
+  _polyDB:
+    tag: object
+    database: Matroids
+    template_key: default
+    uri: https://polydb.org
+    creation_date: '2016-09-21'
+    collection: Small
+    id: n10r0_00000000
+    contributor: Simon Hampe, Benjamin Schroeter
+    version: '2.1'
+    section: Matroids
+  LAMINAR: true
+  SIMPLE: false
+  N_AUTOMORPHISMS: 3628800
+  REGULAR: true
+  PAVING: true
+  N_CIRCUITS: 10
+  BINARY: true
+  NESTED: true
+  _info:
+    credits:
+      ppl: |2
+          The Parma Polyhedra Library (PPL): A C++ library for convex polyhedra
+          and other numerical abstractions.
+          http://www.cs.unipr.it/ppl/
+  N_FLATS: 1
+  N_BASES: 1
+  RANK: 0
+  N_LOOPS: 10
+  N_CYCLIC_FLATS: 1
+  DUAL:
+    RANK: 10
+    N_FLATS: 1024
+    PAVING: true
+    N_CIRCUITS: 0
+    N_LOOPS: 0
+    TRANSVERSAL: true
+    SIMPLE: true
+    N_CYCLIC_FLATS: 1
+  REVLEX_BASIS_ENCODING: '*'
+  N_ELEMENTS: 10
+  _attrs:
+    _polyDB:
+      attachment: true
+  IDENTICALLY_SELF_DUAL: false
+  CONNECTED: false
+  BETA_INVARIANT: '0'

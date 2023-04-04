@@ -1,0 +1,73 @@
+get:
+  tags:
+    - Aggregate Information
+  summary: Distinct values for a property
+  description: >-
+    This endpoint returns a list of distinct values for a property in all
+    objects the match the filter query and the search modifiers.
+  operationId: org.polydb.distinct_simple
+  parameters:
+    - name: collection
+      in: path
+      description: the fully qualified collection name
+      required: true
+      example: Polytopes.Lattice.01Polytopes
+      schema:
+        type: string
+        example: Polytopes.Lattice.01Polytopes
+    - name: property
+      in: path
+      description: the property for which all distinct values should be returned
+      required: true
+      example: N_VERTICES
+      schema:
+        type: string
+        example: N_VERTICES
+    - name: query
+      in: query
+      description: the filter query for the documents
+      required: true
+      example:
+        DIM: 4
+        N_FACETS:
+          '&lte': 6
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+            example:
+              DIM: 4
+              N_FACETS:
+                $lte: 6
+  responses:
+    '200':
+      description: success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/AnyValue.yaml
+            example:
+              - 5
+              - 6
+              - 7
+              - 8
+              - 9
+    '400':
+      description: Parameter or validation failure
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError400.yaml
+    '403':
+      description: 'Authorization failure: Not allowed to access this collection'
+    '404':
+      description: Collection not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError404.yaml
+    '500':
+      description: Interal server error

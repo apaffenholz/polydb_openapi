@@ -1,0 +1,46 @@
+get:
+  tags:
+    - Obtain Documents
+  summary: Object with given id
+  description: This endpoint returns the document of the given collection with the given id
+  operationId: org.polydb.find_by_id
+  parameters:
+    - name: collection
+      required: true
+      in: path
+      description: the fully qualified name of the collection
+      example: Polytopes.Lattice.01Polytopes
+      schema:
+        type: string
+        example: Polytopes.Lattice.01Polytopes
+    - name: id
+      in: path
+      description: the id of the document
+      required: true
+      example: 4d.10v.10f.L0
+      schema:
+        type: string
+        example: 4d.10v.10f.L0
+  responses:
+    '200':
+      description: success
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PolyDBResult.yaml
+    '400':
+      description: Parameter or validation failure
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError400.yaml
+    '403':
+      description: 'Authorization failure: Not allowed to access this collection'
+    '404':
+      description: Collection not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError404.yaml
+    '500':
+      description: Interal server error

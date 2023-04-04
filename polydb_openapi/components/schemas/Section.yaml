@@ -1,0 +1,24 @@
+title: PolyDB section
+description: PolyDB section
+type: object
+required:
+  - description
+properties:
+  description:
+    type: string
+    example: A collection of families of polytopes
+  subsections:
+    type: array
+    items:
+      type: string
+    example:
+      - Polytopes.Combinatorial
+      - Polytopes.Geometric
+  collections:
+    type: array
+    items:
+      type: string
+    example:
+      - Polytopes.Combinatorial.01Polytopes
+      - Polytopes.Combinatorial.CombinatorialTypes
+      - Polytopes.Combinatorial.FacesBirkhoffPolytope

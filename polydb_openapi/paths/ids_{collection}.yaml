@@ -1,0 +1,82 @@
+get:
+  tags:
+    - Aggregate Information
+  summary: Get a list of IDs
+  description: >-
+    This endpoint returns a list of Ids for documents that match the filter
+    conditions and the search modifiers.
+  operationId: org.polydb.find_ids
+  parameters:
+    - name: collection
+      required: true
+      in: path
+      description: the fully qualified name of the collection
+      example: Polytopes.Lattice.01Polytopes
+      schema:
+        type: string
+        example: Polytopes.Lattice.01Polytopes
+    - name: skip
+      in: query
+      description: skip the first N results
+      required: false
+      example: 10
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+        example: 10
+    - name: limit
+      in: query
+      description: return at most N results
+      required: false
+      example: 5
+      schema:
+        type: integer
+        minimum: 0
+        default: 10
+        example: 5
+    - name: query
+      in: query
+      description: the filter query for the documents
+      required: true
+      example:
+        DIM: 5
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+            example:
+              DIM: 5
+  responses:
+    '200':
+      description: success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+              example: 5d.10v.10f.L37
+            example:
+              - 5d.10v.10f.L18
+              - 5d.10v.10f.L19
+              - 5d.10v.10f.L2
+              - 5d.10v.10f.L20
+              - 5d.10v.10f.L21
+    '400':
+      description: Parameter or validation failure
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError400.yaml
+    '403':
+      description: 'Authorization failure: Not allowed to access this collection'
+    '404':
+      description: Collection not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError404.yaml
+    '500':
+      description: Interal server error

@@ -1,0 +1,59 @@
+get:
+  tags:
+    - Obtain Documents
+  summary: find one object
+  description: finds an object in a collection
+  operationId: org.polydb.find_one_simple
+  parameters:
+    - name: collection
+      in: path
+      description: the fully qualified collection name
+      required: true
+      example: Polytopes.Lattice.01Polytopes
+      schema:
+        type: string
+        example: Polytopes.Lattice.01Polytopes
+    - name: skip
+      in: query
+      description: skip the first N results
+      required: false
+      example: 5
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+        example: 5
+    - name: query
+      in: query
+      description: the filter query for the documents
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+            example:
+              DIM: 3
+  responses:
+    '200':
+      description: success
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PolyDBResult.yaml
+    '400':
+      description: Parameter or validation failure
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError400.yaml
+    '403':
+      description: 'Authorization failure: Not allowed to access this collection'
+    '404':
+      description: Collection not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: ../components/schemas/ApiError404.yaml
+    '500':
+      description: Interal server error

@@ -1,0 +1,18 @@
+properties:
+  status:
+    description: The HTTP status code.
+    example: 400
+    type: integer
+  detail:
+    description: Detailed information about the error
+    example: the given endpoint does not exist
+    type: string
+  title:
+    description: Short description of the problem
+    example: No such endpoint
+    type: string
+required:
+  - detail
+  - status
+  - title
+type: object

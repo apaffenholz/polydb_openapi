@@ -1,0 +1,96 @@
+get:
+  tags:
+    - Obtain Documents
+  summary: find objects
+  description: >-
+    Returns an array of documents in the given collection that satisfy the
+    filter. The name of the collection must be given in the query.
+  operationId: org.polydb.find
+  parameters:
+    - name: collection
+      in: query
+      description: the fully qualified collection name
+      required: true
+      schema:
+        type: string
+        example: Polytopes.Lattice.01Polytopes
+      example: Polytopes.Lattice.01Polytopes
+    - name: skip
+      in: query
+      description: skip the first N results
+      required: false
+      example: 5
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+        example: 5
+    - name: limit
+      in: query
+      description: return at most N results
+      required: false
+      example: 10
+      schema:
+        type: integer
+        minimum: 0
+        default: 10
+        example: 10
+    - name: sort_by
+      in: query
+      description: >-
+        Specify a sort order for the results. This is applied before the
+        parameters skip or limit specify the range of results returned.
+      required: false
+      example:
+        DIM: 1
+        N_VERTICES: -1
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+            example:
+              DIM: 1
+              N_VERTICES: -1
+    - name: query
+      in: query
+      description: the filter query for the documents
+      required: true
+      example:
+        DIM: 3
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+            example:
+              DIM: 3
+    - name: projection
+      in: query
+      description: >-
+        A projection applied to the document. You can either specify which
+        properties should be remved from the document, or which properties
+        should be included
+      required: false
+      example:
+        DIM: 1
+        N_VERTICES: 1
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+            example:
+              DIM: 1
+              N_VERTICES: 1
+  responses:
+    '200':
+      description: success
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/PolyDBResult.yaml
+    '400':
+      description: Invalid status value
+    default:
+      description: unexpected error

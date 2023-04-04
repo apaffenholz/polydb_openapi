@@ -1,0 +1,18 @@
+properties:
+  status:
+    description: The HTTP status code.
+    example: 404
+    type: integer
+  detail:
+    description: Detailed information about the error
+    example: There is no section with the given name.
+    type: string
+  title:
+    description: Short description of the problem
+    example: Section not found
+    type: string
+required:
+  - detail
+  - status
+  - title
+type: object

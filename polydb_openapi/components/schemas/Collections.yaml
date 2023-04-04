@@ -1,0 +1,10 @@
+title: A list of PolyDB collections
+description: A list of all collections contained in the given section
+type: array
+items:
+  type: string
+  example: Polytopes.Lattice.01Polytopes
+example:
+  - Polytopes.Lattice.Reflexive
+  - Polytopes.Lattice.SmoothReflexive
+  - Polytopes.Lattice.01Polytopes

@@ -1,0 +1,301 @@
+openapi: 3.0.0
+servers:
+  - url: https://polydb.org/rest/current
+info:
+  contact:
+    email: paffenholz@mathematik.tu-darmstadt.de
+    name: Contact the polyDB maintainer
+    url: https://polydb.org/contact
+  x-logo:
+    url: https://polydb.org/pmlogobig.png
+    backgroundColor: '#FFFFFF'
+    altText: polyDB logo
+  description: >
+    # Introduction
+
+
+    This is the REST Api of the PolyDB database for data in Discrete Geometry
+    and related areas such as Combinatorial Algebra, Graph Theory and Discrete
+    Mathematics.
+
+
+    **Development of this API is still ongoing. Not all errors are properly
+    propagated yet and some endpoints may change**. Please check this page for
+    changes to the endpoints.
+
+
+    # Usage
+
+
+    ## Queries
+
+
+    All queries for data must follow the MongoDB specification and must be given
+    as JSON. Some examples are
+
+        { "DIM" : 5 }
+
+    or 
+
+        { "N_VERTICES" : {"$gt" : 7}, "N_FACETS": 10 }
+
+    ## Search modifiers
+
+
+    Most queries for data accept the following modifiers:
+     
+       * skip=N:  skip the first N results (that match the query)
+       * limit=N: only return the first N results (that match the query, counting from the position gven by skip)
+
+    Queries for Documentation accept the following modifiers:
+
+      * short: only return the short description of a section or collection
+      * recursive: recursively list all subsections below a section
+
+    ## Responses
+
+
+    All responses follow the content type  `application/json`, and are
+    serialized with JSON and encoded in UTF-8.
+
+
+    ### JSON Data Response format
+
+
+    A single returned data response contains the following required parameters
+    beside the actual data:
+      * _ns: A namespace defining how to interpret the data (e.g. "polymake")
+      * _polyDB: contains the following information:
+        * template_key: The key for the JSON schema used to validate the data, usually there is only one per collection
+        * collection: The name of the collection the data came from
+        * section: The section of the collection
+        * creation_date: The creation date
+        * uri: A uri for the software package used to create the object
+      * The actual data as defined by the schema and the computer algebra system used to create the object
+
+
+    ## Authentication
+
+
+    Currently only the public collections can be accessed with this API, and no
+    authentication is required. This will likely change in future versions of
+    the API. So please check back regularly. 
+
+
+    ## Modifying Objects and Creating new Collections
+
+
+    Modifying data and adding collections is not yet implemented via this API.
+    Pleas use one of the computer algebra systems with full interfaces or
+    contact us. We will be happy to integrate the data into the PolyDB and set
+    the documention with the information and references you provide. 
+
+
+    # Citation
+
+
+    If you use this API and data from __polyDB__ in your work please cite 
+
+      * **for the data**: the appropriate references for the collection as given in the documentation of the collection. You can find this information at [polydb.org](https://polydb.org) or in the document returned by `collection/`. 
+      * **for __polyDB__**:
+        > Paffenholz, A., polyDB: *A Database for Polytopes and Related Objects*. 
+        > 
+        > In: Böckle, G., Decker, W., Malle, G. (eds), *Algorithmic and Experimental Methods in Algebra, Geometry, and Number Theory*. 
+        > 
+        > Springer, Cham., 2017 
+        >  
+        > [DOI: 10.1007/978-3-319-70566-8-23](https://doi.org/10.1007/978-3-319-70566-8_23), [arxiv:1711.02936](https://arxiv.org/abs/1711.02936)
+
+
+    # Other Software Packages with access to the PolyDB database
+
+
+    The computer algebra systems [*polymake*](https://polymake.org) and
+    [*oscar*](https://oscar.computeralgebra.de) provide an interface to polyDB. 
+
+
+    ----------------------------------------------------------------
+
+
+    # The API endpoints
+  version: version 0.2
+  title: The PolyDB REST API
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: Sections
+    description: >+
+      Sections are used to organize the data in __polyDB__ into groups of
+      collections of objects from the same area of mathematics. Currently the
+      main categories are
+
+        * __Polytopes__ for objects from discrete and combinatorial geometry
+        * __Matroids__ for collections of matroids
+        * __Manifolds__ for collections of objects from combinatorial topology and triangulations, in particular simplicial complexes
+        * __Tropical__ for collections of objects in tropical geometry
+
+      Sections can be nested for a finer distinction. All queries use fully
+      qualified section names starting at the root section. The names are
+      connected with dots. So the subsection `Lattice` for collections of
+      *lattice polytopes* can be accessed with
+
+          Polytopes.Lattice
+
+      Endpoints that return information on available sections are
+
+        * `section/` for information on the objects contained in this section and a list of collections on this leve
+        * `sections/` for a list of collections and subsections in a section
+
+  - name: Collections
+    description: >+
+      Collections in __polyDB__ contain the actual families of mathematical
+      objects, *e.g.* the list of all reflexive lattice polytopes in dimension
+      4. All objects in a collections satisfy the same JSON schema for the list
+      of their properties.
+
+
+      You can obtain information on the available collections and on the objects
+      in a specific collection with the following endpoints:
+
+        * `collections/` returns a list of all collections contained in a section of __polyDB__.
+        * `collection/` returns a description of the objects in a collection, information about the authors of the data, the contributors and maintainers, references into the literature about the objects, and links to the original sources for the data. You should check this to obtain the correct citation if you use the data.
+
+  - name: Collection Metadata
+    description: >-
+      Each object in a specific collection in __polyDB__ is described by a JSON
+      schema that specifies which mathematical information can be found in each
+      object. You can use the schema to validate the objects and check which
+      data can be queried for the objects.
+  - name: Obtain Documents
+    description: >
+      All data in a __polyDB__ collection can be accessed with a query
+      operation. 
+
+      Depending on the endpoint the query returns a single document or an array
+      of all documents that satisfy the given query. 
+
+      All queries must follow the Mongo DB query language, which basically is a
+      JSON document specifying the query parameters. 
+
+      Some examples are
+
+          { "DIM" : 5 }
+
+      to find one or all objects of dimension 5, or 
+
+          { "N_VERTICES" : {"&gt" : 7}, "N_FACETS": 10 }
+
+      to find one or all objects with more than seven vertices and exactly 10
+      facets. The names of the properties you can query for can be found in the
+      schema of the collection or in tis documentation. In the examples we
+      follow the naming conventions of __polymake__. 
+
+
+      All endpoints (except `id/`) in this section accept the following
+      modifiers:
+       
+         * skip=N:  skip the first N results (that match the query)
+         * limit=N: only return the first N results (that match the query, counting from the position gven by skip)
+
+      Some endpoints also allow to specify a __projection__ of the data. This is
+      a JSON document that specifies either which properties of the object
+      should be returned by the query, or which properties should be dropped in
+      the return. A valid projection may look like this:
+
+          { "DIM" : 1, "N_VERTICES" : 1, "N_FACETS" : 1 }
+
+      which returns only the dimension, the number of vertices and facets, and
+      the id of the object in the __polyDB__ (this is alwyas returned and need
+      not be specified)
+  - name: Count Documents
+    description: >
+      All data in a __polyDB__ collection can be accessed with a count
+      operation. 
+
+      Edpoints return the total number of documents that satisfy the given query
+      and search modifiers.
+
+      All queries must follow the Mongo DB query language, which basically is a
+      JSON document specifying the query parameters. 
+
+      Some examples are
+
+          { "DIM" : 5 }
+
+      to find one or all objects of dimension 5, or 
+
+          { "N_VERTICES" : {"&gt" : 7}, "N_FACETS": 10 }
+
+      to count all documents with more than seven vertices and exactly 10
+      facets. The names of the properties you can query for can be found in the
+      schema of the collection or in tis documentation. In the examples we
+      follow the naming conventions of __polymake__. 
+
+
+      All endpoints in this section accept the following modifiers:
+       
+         * skip=N:  skip the first N results (that match the query)
+         * limit=N: only return the first N results (that match the query, counting from the position gven by skip)
+  - name: Aggregate Information
+    description: >
+      Data in __polyDB__ can be aggregated in various ways. The REST API
+      currently allows to obtain lists of distinct values for a property, and
+      lists of document ids. 
+
+
+      Both endpoints accept a filter that is applied before the distinct values
+      or the ids are retrieved. Some examples for a filter are
+
+          { "DIM" : 5 }
+
+      to restrict to documents of objects  of dimension 5, or 
+
+          { "N_VERTICES" : {"&gt" : 7}, "N_FACETS": 10 }
+
+      to restrict to objects with more than seven vertices and exactly 10
+      facets. The names of the properties you can query for can be found in the
+      schema of the collection or in tis documentation. In the examples we
+      follow the naming conventions of __polymake__. 
+x-tagGroups:
+  - name: Documentation
+    tags:
+      - Sections
+      - Collections
+  - name: Metadata
+    tags:
+      - Collection Metadata
+  - name: Data Queries
+    tags:
+      - Obtain Documents
+      - Count Documents
+      - Aggregate Information
+paths:
+  /section/{section}:
+    $ref: paths/section_{section}.yaml
+  /sections/{section}:
+    $ref: paths/sections_{section}.yaml
+  /collection/{collection}:
+    $ref: paths/collection_{collection}.yaml
+  /collections/{section}:
+    $ref: paths/collections_{section}.yaml
+  /schema/{collection}:
+    $ref: paths/schema_{collection}.yaml
+  /find_one/{collection}:
+    $ref: paths/find_one_{collection}.yaml
+  /find_one:
+    $ref: paths/find_one.yaml
+  /find/{collection}:
+    $ref: paths/find_{collection}.yaml
+  /find:
+    $ref: paths/find.yaml
+  /id/{collection}/{id}:
+    $ref: paths/id_{collection}_{id}.yaml
+  /count:
+    $ref: paths/count.yaml
+  /count/{collection}:
+    $ref: paths/count_{collection}.yaml
+  /distinct/{collection}/{property}:
+    $ref: paths/distinct_{collection}_{property}.yaml
+  /ids/{collection}:
+    $ref: paths/ids_{collection}.yaml
